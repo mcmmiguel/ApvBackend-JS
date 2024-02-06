@@ -51,7 +51,7 @@ export const confirmar = async (req, res) => {
 }
 
 export const autenticar = async (req, res) => {
-    const { email } = req.body;
+    const { email, password } = req.body;
 
     // Comprobar si el usuario existe
     const usuario = await Veterinario.findOne({ email });
@@ -67,6 +67,13 @@ export const autenticar = async (req, res) => {
         return res.status(403).json({ msg: error.message });
     }
 
-    // Autenticar al usuario
+    // Revisar el password
+    if (await usuario.comprobarPassword(password)) {
+        // Autenticar
+
+    } else {
+        const error = new Error('Password incorrecto');
+        return res.status(403).json({ msg: error.message });
+    }
 
 }
