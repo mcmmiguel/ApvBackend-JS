@@ -13,6 +13,30 @@ export const agregarPaciente = async (req, res) => {
 
 }
 
-export const obtenerPacientes = (req, res) => {
+export const obtenerPacientes = async (req, res) => {
+    const pacientes = await Paciente.find().where('veterinario').equals(req.veterinario);
+
+    res.json(pacientes);
+}
+
+export const obtenerPaciente = async (req, res) => {
+    const { id } = req.params;
+    const paciente = await Paciente.findById(id);
+
+    if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
+        return res.json({ msg: 'Accion no válida' });
+    }
+
+    if (paciente) {
+        res.json(paciente);
+    }
+
+}
+
+export const actualizarPaciente = async (req, res) => {
+
+}
+
+export const eliminarPaciente = async (req, res) => {
 
 }
