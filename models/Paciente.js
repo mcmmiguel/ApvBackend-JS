@@ -19,7 +19,7 @@ const pacientesSchema = mongoose.Schema({
         default: Date.now(),
     },
     sintomas: {
-        type: Date,
+        type: String,
         required: true,
     },
     veterinario: {
