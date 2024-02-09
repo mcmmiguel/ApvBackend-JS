@@ -37,7 +37,7 @@ export const registrar = async (req, res) => {
 
 export const perfil = (req, res) => {
     const { veterinario } = req
-    res.json({ perfil: veterinario })
+    res.json(veterinario)
 };
 
 export const confirmar = async (req, res) => {
