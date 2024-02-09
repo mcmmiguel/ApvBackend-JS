@@ -1,3 +1,4 @@
+import emailOlvidePassword from "../helpers/emailOlvidePassword.js";
 import emailRegistro from "../helpers/emailRegistro.js";
 import generarId from "../helpers/generarId.js";
 import { generarJWT } from "../helpers/generarJWT.js";
@@ -90,7 +91,7 @@ export const autenticar = async (req, res) => {
 }
 
 export const olvidePassword = async (req, res) => {
-    const { email } = req.body;
+    const { email, nombre, token } = req.body;
 
     const existeVeterinario = await Veterinario.findOne({ email });
 
@@ -102,6 +103,14 @@ export const olvidePassword = async (req, res) => {
     try {
         existeVeterinario.token = generarId();
         await existeVeterinario.save();
+
+        // Envio de email con instrucciones
+        emailOlvidePassword({
+            email,
+            nombre: existeVeterinario.nombre,
+            token: existeVeterinario.token
+        });
+
         res.json({ msg: 'Se ha enviado un email con las instrucciones' });
     } catch (error) {
         console.log(error);
